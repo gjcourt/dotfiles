@@ -1,6 +1,6 @@
 # virtualenvwrapper hooks
-export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+# export WORKON_HOME=$HOME/.virtualenvs
+# source /usr/local/bin/virtualenvwrapper.sh
 
 # enable bash completion for git (git-core port told me to do this)
 if [ -f /opt/local/etc/bash_completion ]; then
@@ -29,9 +29,9 @@ PROMPT_COMMAND='show_special_prompt'
 # ls
 alias ..="cd .."
 alias ls="ls -G $@"
-alias ll="ll -l"
-alias lsla="lsla -la"
-alias lsa="la -a"
+alias ll="ls -l"
+alias lsla="ls -la"
+alias lsa="ls -a"
 
 # grep
 export GREP_COLOR="1"
@@ -46,11 +46,7 @@ alias disqus-vag="cd ~/projects/disqus-ops/vagrant/dev"
 alias disqus-prox="sudo haproxy -f /usr/local/etc/haproxy/haproxy.conf"
 
 # Vagrant shortcuts
-alias vup="vagrant up"
-alias vhalt="vagrant halt"
-alias vssh="vagrant ssh"
-alias vupdate="vagrant provision"
-alias vrestart="vagrant halt && vagrant up"
+alias vag="vagrant $@"
 
 # Find
 alias find="find $@ -print 2>/dev/null"
@@ -64,4 +60,4 @@ alias git-stats="git fetch origin && git shortlog --all -sne $@"
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
-export PYTHONDONTWRITEBYTECODE=0
+export PYTHONDONTWRITEBYTECODE
