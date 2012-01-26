@@ -38,11 +38,8 @@ export GREP_COLOR="1"
 alias grep="grep --color $@"
 
 # alias olark="cd /Volumes/olark-george/apps"
-alias hiflii="cd /Users/gjcourt/Dropbox/projects/web/hiflii"
-# alias gjcourt="ssh gjcourt.com@s77779.gridserver.com"
-alias gjcourt="ssh root@gjcourt.com"
 alias disqus="cd ~/projects/disqus/disqus && workon disqus"
-alias disqus-vag="cd ~/projects/disqus-ops/vagrant/dev"
+alias disqus-vag="cd ~/projects/disqus-ops/vagrant/local"
 alias disqus-prox="sudo haproxy -f /usr/local/etc/haproxy/haproxy.conf"
 
 # Vagrant shortcuts
