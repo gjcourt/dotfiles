@@ -64,7 +64,7 @@ function s:setupWrapping()
 endfunction
 
 function s:setupMarkup()
-  call s:setupWrapping()
+  " call s:setupWrapping()
   map <buffer> <Leader>p :Hammer<CR>
 endfunction
 
@@ -76,8 +76,13 @@ au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
 
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
+" au BufNewFile,BufRead *.clj set ft=clojure
+au BufNewFile,BufRead Buildfile set ft=ruby
 
-au BufRead,BufNewFile *.txt call s:setupWrapping()
+" au BufRead,BufNewFile *.txt call s:setupWrapping()
+
+" Clojure completions
+au Bufenter,Bufnewfile *.clj setl complete+=k~/.clj_completions
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -115,6 +120,7 @@ if has("mac")
 elseif has("unix")
   let g:gist_clip_command = 'xclip -selection clipboard'
 endif
+
 let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
 
@@ -123,7 +129,7 @@ set modeline
 set modelines=10
 
 " Default color scheme
-color desert
+color ir_black
 
 " Directories for swp files
 set backupdir=~/.vim/backup
@@ -145,3 +151,6 @@ set showcmd
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
+
+" Rainbox parens
+let vimclojure#ParenRainbow = 1 " Rainbow parentheses'!
