@@ -8,8 +8,8 @@ alias ll="ls -l $@"
 alias la="ls -a $@"
 alias lla="ls -la $@"
 
-function hidden() {
-    ls -a $@ | grep -e "^\.";
+function hidden {
+    ls -a $@ | egrep -v "^\.{1,2}$" | grep "^\.";
 }
 
 # grep
