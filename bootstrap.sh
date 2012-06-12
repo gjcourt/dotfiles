@@ -1,9 +1,7 @@
-#!/bin/sh
-
-function dotfiles() {
+#!/bin/bash
+function dotfiles {
     ls -a | egrep -v "^\.{1,2}$" | grep -e "^\."
 }
-
 for file in `dotfiles`
 do
     ln -s `pwd`/$file ~/

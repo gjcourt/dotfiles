@@ -1,0 +1,20 @@
+export EDITOR=vim
+
+alias ..="cd .. $@"
+
+# ls
+alias ls="ls -G $@"
+alias ll="ls -l $@"
+alias la="ls -a $@"
+alias lla="ls -la $@"
+
+function hidden() {
+    ls -a $@ | grep -e "^\.";
+}
+
+# grep
+export GREP_COLOR="1"
+alias grep="grep --color $@"
+
+# system.python
+export PYTHONDONTWRITEBYTECODE=1
