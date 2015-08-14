@@ -1,12 +1,18 @@
-# virtualenvwrapper hooks
-export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+# Path additions
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$HOME/Library/Python/2.7/bin:$PATH
 
+# Vim
 export EDITOR=vim
+
+# Virtualenvwrapper hooks
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=`which python`
+. /usr/local/bin/virtualenvwrapper.sh
 
 # enable bash completion for git (git-core port told me to do this)
 if [ -f /opt/local/etc/bash_completion ]; then
-    . /opt/local/etc/bash_completion
+    source /opt/local/etc/bash_completion
 fi
 
 # define colors for special prompt
@@ -23,10 +29,43 @@ WHITE='\[\e[0;37m\]'
 GREY='\[\e[0;30m\]'
 BOLD='\[\e[1;1m\]'
 NOCOLOR='\[\e[0m\]'
-function show_special_prompt {
-export PS1="${BOLD}\w ${MAGENTA_BOLD}$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1 /')${NOCOLOR}${BOLD}>${NOCOLOR} "
+
+function colour {
+    local colour=$1
+    local code=""
+    case $1 in
+        "none" ) code="0";;
+        "black" ) code="0;30";;
+        "blackbold" ) code="1;30";;
+        "red" ) code="0;31";;
+        "redbold" ) code="1;31";;
+        "green" ) code="0;32";;
+        "greenbold" ) code="1;32";;
+        "yellow" ) code="0;33";;
+        "yellowbold" ) code="1;33";;
+        "blue" ) code="0;34";;
+        "lightblue" ) code="38;5;33";;
+        "bluebold" ) code="1;34";;
+        "purple" ) code="38;5;99";;
+        "purplebold" ) code="1;35";;
+        "cyan" ) code="0;36";;
+        "cyanbold" ) code="1;36";;
+        "white" ) code="0;37";;
+        "whitebold" ) code="1;37";;
+        "none" ) code="0";;
+        *)
+        echo "colour $1 not found!"
+        exit 1
+        ;;
+    esac
+    echo "\[\033[${code}m\]"
 }
-PROMPT_COMMAND='show_special_prompt'
+
+function prompt_func {
+    export PS1="$(colour lightblue)\w $(colour green)$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1 /')$(colour purple)\$$(colour none) "
+}
+
+PROMPT_COMMAND='prompt_func'
 
 # ls
 alias ..="cd .. $@"
@@ -35,59 +74,29 @@ alias ll="ls -l $@"
 alias la="ls -a $@"
 alias lla="ls -la $@"
 
-function hidden() {
-    ls -a $@ | grep -e "^\.";
+function hidden() { ls -a $@ | grep -e "^\."; }
+alias dot='hidden'
+
+function swap()
+{
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
 }
 
 # grep
 export GREP_COLOR="1"
 alias grep="grep --color $@"
 
-# alias olark="cd /Volumes/olark-george/apps"
-alias hiflii="cd /Users/gjcourt/Dropbox/projects/web/hiflii"
-alias gjcourt="ssh root@gjcourt.com"
-alias disqus="cd ~/projects/disqus/disqus && workon disqus"
-alias disqus-prox="sudo haproxy -f ~/projects/disqus-ops/vagrant/local/haproxy/haproxy.cfg"
-alias disqus-vag="cd ~/projects/disqus-ops/vagrant/local && vag ssh"
-
-# Vagrant shortcuts
-alias vag="vagrant $@"
-
-# GIT aliases
-# alias git-merge="git checkout $1 && git pull && git checkout $2 && git merge $1"
-
-# Find
-# alias find="find $@ -print 2>/dev/null"
-
 # GeoIP fix
 export GEOIP_ARCH='-arch i386 -arch x86_64 -arch ppc -arch ppc64'
-
-# Django shell alias
-alias shell="python manage.py shell"
-alias git-stats="git fetch origin && git shortlog --all -sne $@"
 
 # ssh aliases
 alias addkeys='find ~/.ssh -name id_rsa -exec ssh-add {} \;'
 
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-
-export PYTHONDONTWRITEBYTECODE=1
-
-export ec2="ec2-107-20-59-35.compute-1.amazonaws.com"
-
-# export SPY_BASE="/var/run/spy/"
-export SPY_BASE="/usr/local/var/spy/"
-
-alias django="export DJANGO_SETTINGS_MODULE='disqus.settings'"
-
-# Java
-export CLASSPATH=/usr/local/lib/java/*:/usr/local/lib/clojure/target/clojure.jar:$CLASSPATH
-
-# Storm
-export PATH=$HOME/projects/storm-0.7.0/bin:$PATH
-
-# Clojure
-export M2_PATH=$HOME/.m2
-export CLOJURE_REPO=$M2_PATH/repository
-export CLOJURE_LIBS=$M2_PATH/cheshire/cheshire/4.0.1-SNAPSHOT/cheshire-4.0.1-SNAPSHOT.jar:$M2_PATH/clj-http/clj-http/0.1.1/clj-http-0.1.1.jar:$M2_PATH/clj-ssh/clj-ssh/0.2.4/clj-ssh-0.2.4.jar:$M2_PATH/clj-time/clj-time/0.3.0/clj-time-0.3.0.jar:$CLOJURE_LIBS
-
+# Source a local profile if it exists
+if [ -f ~/.profile.local ]
+then
+    . ~/.profile.local
+fi
