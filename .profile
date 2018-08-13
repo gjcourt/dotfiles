@@ -1,14 +1,8 @@
 # Path additions
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=$HOME/Library/Python/2.7/bin:$PATH
 
 # Vim
 export EDITOR=vim
-
-# Virtualenvwrapper hooks
-export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUALENVWRAPPER_PYTHON=`which python`
-. /usr/local/bin/virtualenvwrapper.sh
 
 # enable bash completion for git (git-core port told me to do this)
 if [ -f /opt/local/etc/bash_completion ]; then
@@ -88,12 +82,6 @@ function swap()
 # grep
 export GREP_COLOR="1"
 alias grep="grep --color $@"
-
-# GeoIP fix
-export GEOIP_ARCH='-arch i386 -arch x86_64 -arch ppc -arch ppc64'
-
-# ssh aliases
-alias addkeys='find ~/.ssh -name id_rsa -exec ssh-add {} \;'
 
 # Source a local profile if it exists
 if [ -f ~/.profile.local ]
