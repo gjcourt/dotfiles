@@ -11,6 +11,7 @@ symlink it all into `$HOME`.
 | `.bashrc_local` | A smaller set of aliases and exports (editor, `ls`/`grep` aliases, Python bytecode setting), meant to be sourced from a machine's own `~/.bashrc`. |
 | `.vimrc` | Vim settings: line numbers, search behavior, tabs/whitespace, NERDTree and other plugin config. |
 | `.gvimrc` | GUI Vim additions, mostly MacVim key bindings (Command-T, fullscreen, tab switching). |
+| `.viminfo` | Vim's persistent state (search/command history, registers, marks). Tracked here and symlinked by `bootstrap.sh` like the other dotfiles, so it will overwrite `~/.viminfo`. |
 | `.tmux.conf` | tmux config: `C-a` prefix, vi-style keys and copy mode, custom status bar, 100k line scrollback. |
 | `.slate` | Window-management bindings for the Slate window manager on macOS. |
 | `settings.jar` | Exported JetBrains IDE settings (PyCharm/IntelliJ): color scheme, code style, file templates. Imported manually through the IDE's settings import, not symlinked by `bootstrap.sh`. |
