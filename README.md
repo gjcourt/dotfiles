@@ -1,34 +1,50 @@
+<!-- readme-type: infra -->
 # dotfiles
 
-Personal shell, editor, and window-manager configuration, plus a script to
-symlink it all into `$HOME`.
+Personal shell, editor, and window-manager configuration, symlinked into $HOME
 
-## Contents
+Setting up a new machine means recreating a shell prompt, editor settings,
+tmux behavior, and window-management bindings by hand. This repo tracks that
+configuration in one place, and `bootstrap.sh` symlinks it into `$HOME` in one
+step. It also carries an exported JetBrains IDE settings bundle for manual
+import.
 
-| File | Purpose |
-| --- | --- |
-| `.profile` | Bash prompt (branch-aware, colored), `PATH`, `EDITOR`, aliases, and git completion. Sources `~/.profile.local` if present. |
-| `.bashrc_local` | A smaller set of aliases and exports (editor, `ls`/`grep` aliases, Python bytecode setting), meant to be sourced from a machine's own `~/.bashrc`. |
-| `.vimrc` | Vim settings: line numbers, search behavior, tabs/whitespace, NERDTree and other plugin config. |
-| `.gvimrc` | GUI Vim additions, mostly MacVim key bindings (Command-T, fullscreen, tab switching). |
-| `.viminfo` | Vim's persistent state (search/command history, registers, marks). Tracked here and symlinked by `bootstrap.sh` like the other dotfiles, so it will overwrite `~/.viminfo`. |
-| `.tmux.conf` | tmux config: `C-a` prefix, vi-style keys and copy mode, custom status bar, 100k line scrollback. |
-| `.slate` | Window-management bindings for the Slate window manager on macOS. |
-| `settings.jar` | Exported JetBrains IDE settings (PyCharm/IntelliJ): color scheme, code style, file templates. Imported manually through the IDE's settings import, not symlinked by `bootstrap.sh`. |
-| `bootstrap.sh` | Symlinks every dotfile above into `$HOME`. |
+**Status:** unmaintained since 2018-08 — no configuration changes since then,
+only this README.
 
-## Install
+## Layout
 
-`bootstrap.sh` lists every entry in the repo root that starts with `.`
-(excluding `.git`) and symlinks it to the same name under `$HOME`:
-
-```sh
-./bootstrap.sh
+```text
+.profile        bash prompt (branch-aware, colored), PATH, EDITOR, aliases, git completion
+.bashrc_local   smaller set of aliases/exports, meant to be sourced from a machine's own ~/.bashrc
+.vimrc          vim settings: line numbers, search, tabs/whitespace, NERDTree and other plugins
+.gvimrc         GUI vim additions, mostly MacVim key bindings
+.viminfo        vim's persistent state (search/command history, registers, marks), tracked and symlinked like the rest
+.tmux.conf      tmux config: C-a prefix, vi-style keys and copy mode, custom status bar, 100k line scrollback
+.slate          window-management bindings for the Slate window manager (macOS)
+settings.jar    exported JetBrains IDE settings; imported manually through the IDE, not symlinked
+bootstrap.sh    symlinks every dotfile above into $HOME
 ```
 
-It doesn't back up or remove existing files first, so move aside anything
-already at `~/.profile`, `~/.vimrc`, etc. before running it. Files without a
-leading dot, such as `settings.jar`, are left alone and are not symlinked.
+`~/.profile.local`, if present, is sourced automatically by `.profile` for
+machine-specific settings that don't belong in a tracked file.
 
-To pull in machine-specific settings without editing tracked files, add a
-`~/.profile.local` — `.profile` sources it automatically if it exists.
+## Making a change
+
+1. Branch from `master`.
+2. Validate locally (`bash -n bootstrap.sh`).
+3. Open a PR. There's no CI and nothing deploys automatically; merging just
+   updates `master`, and changes take effect on a machine the next time you
+   run `bootstrap.sh` there.
+
+## Development
+
+```bash
+bash -n bootstrap.sh
+```
+
+There's no other build, test, or lint step in this repo.
+
+## License
+
+No licence file yet.
